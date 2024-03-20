@@ -12,7 +12,7 @@ export default function TileCol({ initial_id, tiles, setTiles }) {
       tiles.map((tile, i) => {
         if (i == last_id) {
           // Switch to the turn value
-          switch (tile.value) {
+          switch (tile["value"]) {
             case "red":
               return { ...tile, value: "blue" };
             case "blue":

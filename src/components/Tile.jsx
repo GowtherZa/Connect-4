@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
 
 export default function Tile(id, value) {
-  const [className, setClassName] = useState(
-    "border-2 border-slate-20 rounded-full m-2 w-16 h-16"
-  );
+  const base_className = "border-2 border-slate-20 rounded-full m-2 w-16 h-16";
+
+  const [className, setClassName] = useState(base_className);
 
   useEffect(() => {
     switch (value) {
       case "red":
-        setClassName((prevClassName) => prevClassName + " bg-red-400");
+        setClassName(base_className + " bg-red-400");
         break;
       case "blue":
-        setClassName((prevClassName) => prevClassName + " bg-blue-400");
+        setClassName(base_className + " bg-blue-400");
         break;
     }
   }, [value]);
 
-  return (
-    <div key={id} className={className} onClick={() => console.log(id)}></div>
-  );
+  return <div key={id} className={className}></div>;
 }
