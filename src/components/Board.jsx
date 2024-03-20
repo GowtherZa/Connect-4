@@ -3,7 +3,7 @@ import { useState } from "react";
 import TileCol from "./TileCol";
 
 export default function Board() {
-  const [tiles, setTiles] = useState(Array(47).fill({ value: "blank" }));
+  const [tiles, setTiles] = useState(Array(42).fill({ value: "blank" }));
 
   return (
     <div className="w-screen h-screen bg-black bg-opacity-25 flex justify-center items-center">
@@ -15,6 +15,7 @@ export default function Board() {
           <TileCol initial_id={3} tiles={tiles} setTiles={setTiles}></TileCol>
           <TileCol initial_id={4} tiles={tiles} setTiles={setTiles}></TileCol>
           <TileCol initial_id={5} tiles={tiles} setTiles={setTiles}></TileCol>
+          <TileCol initial_id={6} tiles={tiles} setTiles={setTiles}></TileCol>
         </div>
       </div>
     </div>

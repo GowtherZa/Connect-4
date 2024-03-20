@@ -4,13 +4,13 @@ import Tile from "./Tile";
 
 // eslint-disable-next-line react/prop-types
 export default function TileCol({ initial_id, tiles, setTiles }) {
-  const [last_id, setLast_id] = useState(initial_id + 7 * 6);
+  const [last_id, setLast_id] = useState(initial_id + 7 * 5);
 
   const handleAddPiece = () => {
     setTiles(
       // eslint-disable-next-line react/prop-types
       tiles.map((tile, i) => {
-        if (i == last_id - 7) {
+        if (i == last_id) {
           // Switch to the turn value
           switch (tile.value) {
             case "red":

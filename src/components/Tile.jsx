@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 
 export default function Tile(id, value) {
-
   const [className, setClassName] = useState(
     "border-2 border-slate-20 rounded-full m-2 w-16 h-16"
   );
 
-  useEffect(()=>{
+  useEffect(() => {
     switch (value) {
       case "red":
         setClassName((prevClassName) => prevClassName + " bg-red-400");
@@ -15,7 +14,9 @@ export default function Tile(id, value) {
         setClassName((prevClassName) => prevClassName + " bg-blue-400");
         break;
     }
-  },[value])
+  }, [value]);
 
-  return <div key={id} className={className}></div>;
+  return (
+    <div key={id} className={className} onClick={() => console.log(id)}></div>
+  );
 }
