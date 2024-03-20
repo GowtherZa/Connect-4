@@ -1,13 +1,21 @@
-export default function Tile(id) {
-  const onTileClick = () => {
-    console.log(`Clicked id # ${id}`);
-  };
+import { useEffect, useState } from "react";
 
-  return (
-    <div
-      key={id}
-      onClick={onTileClick}
-      className="border-3 border-slate-200 bg-red-400 rounded-full m-2 w-16 h-16 "
-    ></div>
+export default function Tile(id, value) {
+
+  const [className, setClassName] = useState(
+    "border-2 border-slate-20 rounded-full m-2 w-16 h-16"
   );
+
+  useEffect(()=>{
+    switch (value) {
+      case "red":
+        setClassName((prevClassName) => prevClassName + " bg-red-400");
+        break;
+      case "blue":
+        setClassName((prevClassName) => prevClassName + " bg-blue-400");
+        break;
+    }
+  },[value])
+
+  return <div key={id} className={className}></div>;
 }
