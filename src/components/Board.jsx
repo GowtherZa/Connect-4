@@ -14,7 +14,7 @@ export default function Board() {
     for (let steps = 1; steps < 4; steps++) {
       if (tiles[id - steps] && tiles[id - steps]["value"] === color) {
         counter++;
-        if (id - (steps % 7) === 0 || counter === 3) {
+        if ((id - steps) % 7 === 0 || counter === 3) {
           return counter;
         }
       }
