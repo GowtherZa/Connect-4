@@ -3,8 +3,11 @@ import { useState } from "react";
 import Tile from "./Tile";
 
 // eslint-disable-next-line react/prop-types
-export default function TileCol({ initial_id, tiles, setTiles }) {
+export default function TileCol({ initial_id, props }) {
   const [last_id, setLast_id] = useState(initial_id + 7 * 5);
+
+  // eslint-disable-next-line react/prop-types
+  const { tiles, setTiles } = props;
 
   const handleAddPiece = () => {
     setTiles(
@@ -40,7 +43,6 @@ export default function TileCol({ initial_id, tiles, setTiles }) {
   return (
     <div className="flex flex-wrap flex-col" onClick={handleAddPiece}>
       {cols}
-      <span>{last_id}</span>
     </div>
   );
 }
