@@ -10,8 +10,8 @@ export default function Tile(id, value) {
       case "red":
         setClassName(base_className + " bg-red-400");
         break;
-      case "blue":
-        setClassName(base_className + " bg-blue-400");
+      case "yellow":
+        setClassName(base_className + " bg-yellow-400");
         break;
     }
   }, [value]);
