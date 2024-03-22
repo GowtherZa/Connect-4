@@ -24,7 +24,7 @@ export default function Board() {
 
   const checkForWinner = (id, tiles) => {
     if (validateLeft(id, tiles) === 3) {
-      console.log(`${tiles[id]["value"]} team won`);
+      setIsMatchWon(true);
     }
   };
 

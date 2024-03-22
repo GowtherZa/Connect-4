@@ -18,6 +18,10 @@ export default function TileCol({ initial_id, props }) {
   } = props;
 
   const handleAddPiece = () => {
+    if(isMatchWon){
+      return
+    }
+
     // Draw the tiles on the board
     const new_tiles = // eslint-disable-next-line react/prop-types
       tiles.map((tile, i) => {
