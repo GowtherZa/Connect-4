@@ -22,8 +22,25 @@ export default function Board() {
     return counter;
   };
 
+  const validateRight = (id, tiles, counter = 0) => {
+    const color = tiles[id]["value"];
+    for (let steps = 1; steps < 4; steps++) {
+      if (tiles[id + steps] && tiles[id + steps]["value"] === color) {
+        counter++;
+        if ((id + steps) % 6 === 0 || counter === 3) {
+          return counter;
+        }
+      }
+    }
+    return counter;
+  };
+
   const checkForWinner = (id, tiles) => {
-    if (validateLeft(id, tiles) === 3) {
+    let count = 0;
+    count = validateLeft(id, tiles, count);
+    count = validateRight(id, tiles, count);
+    if (count >= 3) {
+      console.log(`${tiles[id]["value"]} team won!`);
       setIsMatchWon(true);
     }
   };

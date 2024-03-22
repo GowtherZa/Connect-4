@@ -18,8 +18,8 @@ export default function TileCol({ initial_id, props }) {
   } = props;
 
   const handleAddPiece = () => {
-    if(isMatchWon){
-      return
+    if (isMatchWon) {
+      return;
     }
 
     // Draw the tiles on the board
