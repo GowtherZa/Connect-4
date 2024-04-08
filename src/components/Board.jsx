@@ -9,27 +9,32 @@ export default function Board() {
 
   const [isMatchWon, setIsMatchWon] = useState(false);
 
-  const validateLeft = (id, tiles, counter = 0) => {
+  const [winner, setWinner] = useState("");
+
+  const validateX = (id, tiles, side, counter = 0) => {
+    if (
+      (side === "left" && id % 7 == 0) ||
+      (side === "right" && id % 7 === 6)
+    ) {
+      return counter;
+    }
+
     const color = tiles[id]["value"];
+    let actual_id = 0;
+    let side_condition = null;
+
     for (let steps = 1; steps < 4; steps++) {
-      if (tiles[id - steps] && tiles[id - steps]["value"] === color) {
+      actual_id = side === "left" ? id - steps : id + steps;
+      side_condition =
+        side == "left" ? (id - steps) % 7 === 0 : (id + steps) % 7 === 6;
+      if (tiles[actual_id] && tiles[actual_id]["value"] === color) {
         counter++;
-        if ((id - steps) % 7 === 0 || counter === 3) {
+        if (side_condition || counter === 3) {
           return counter;
         }
       }
-    }
-    return counter;
-  };
-
-  const validateRight = (id, tiles, counter = 0) => {
-    const color = tiles[id]["value"];
-    for (let steps = 1; steps < 4; steps++) {
-      if (tiles[id + steps] && tiles[id + steps]["value"] === color) {
-        counter++;
-        if ((id + steps) % 6 === 0 || counter === 3) {
-          return counter;
-        }
+      else if(tiles[actual_id] && tiles[actual_id]["value"] !== color){
+        return counter
       }
     }
     return counter;
@@ -37,11 +42,14 @@ export default function Board() {
 
   const checkForWinner = (id, tiles) => {
     let count = 0;
-    count = validateLeft(id, tiles, count);
-    count = validateRight(id, tiles, count);
+    count = validateX(id, tiles, "left", count);
+    console.log(`${count} to the left`);
+    count = validateX(id, tiles, "right", count);
+    console.log(`${validateX(id, tiles, "right", 0)} to the right`);
     if (count >= 3) {
       console.log(`${tiles[id]["value"]} team won!`);
       setIsMatchWon(true);
+      setWinner(tiles[id]["value"]);
     }
   };
 
@@ -56,7 +64,8 @@ export default function Board() {
   };
 
   return (
-    <div className="w-screen h-screen bg-black bg-opacity-25 flex justify-center items-center">
+    <div className="w-screen h-screen bg-black bg-opacity-25 flex flex-col justify-center items-center">
+      <div>{winner === "" || `Ganador ${winner}`}</div>
       <div className="bg-slate-500 w-2/4 h-3/4 rounded-lg shadow flex justify-center items-center">
         <div className="flex flex-wrap align-center items-center">
           <TileCol initial_id={0} props={childrenProps}></TileCol>
