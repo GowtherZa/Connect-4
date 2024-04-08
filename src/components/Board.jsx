@@ -32,9 +32,30 @@ export default function Board() {
         if (side_condition || counter === 3) {
           return counter;
         }
+      } else if (tiles[actual_id] && tiles[actual_id]["value"] !== color) {
+        return counter;
       }
-      else if(tiles[actual_id] && tiles[actual_id]["value"] !== color){
-        return counter
+    }
+    return counter;
+  };
+
+  const validateDown = (id, tiles, counter = 0) => {
+    if (id >= 32) {
+      return counter;
+    }
+
+    const color = tiles[id]["value"];
+    let actual_id = 0;
+    let condition = null;
+
+    for (let steps = 7; steps < 28; steps += 7) {
+      actual_id = id + steps;
+      condition = actual_id <= 6;
+      if (tiles[actual_id] && tiles[actual_id]["value"] === color) {
+        counter++;
+        if (condition || counter === 3) {
+          return counter;
+        }
       }
     }
     return counter;
@@ -43,11 +64,9 @@ export default function Board() {
   const checkForWinner = (id, tiles) => {
     let count = 0;
     count = validateX(id, tiles, "left", count);
-    console.log(`${count} to the left`);
     count = validateX(id, tiles, "right", count);
-    console.log(`${validateX(id, tiles, "right", 0)} to the right`);
+    count = validateDown(id, tiles, 0);
     if (count >= 3) {
-      console.log(`${tiles[id]["value"]} team won!`);
       setIsMatchWon(true);
       setWinner(tiles[id]["value"]);
     }
