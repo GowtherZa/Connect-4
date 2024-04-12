@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import TileCol from "./TileCol";
+import { act } from "react-dom/test-utils";
 
 export default function Board() {
   const [tiles, setTiles] = useState(Array(42).fill({ value: "blank" }));
@@ -61,11 +62,38 @@ export default function Board() {
     return counter;
   };
 
+  const validateUpperDiags = (id, tiles, side, counter = 0) => {
+    const condition = (id) => id <= 6;
+    const color = tiles[id]["value"];
+
+    if (condition(id)) {
+      return counter;
+    }
+
+    const steps = 7;
+    let actual_id = 0;
+
+    for (let i = 1; i <= 4; i++) {
+      actual_id = side === "left" ? id - steps * i - i : id - steps * i + i;
+      if (tiles[actual_id] && tiles[actual_id]["value"] === color) {
+        counter++;
+        if (condition(actual_id) || counter === 3) {
+          return counter;
+        }
+      }else{
+        return counter
+      }
+    }
+  };
+
   const checkForWinner = (id, tiles) => {
     let count = 0;
-    count = validateX(id, tiles, "left", count);
-    count = validateX(id, tiles, "right", count);
-    count = validateDown(id, tiles, 0);
+    // count = validateX(id, tiles, "left", count);
+    // count = validateX(id, tiles, "right", count);
+    // count = validateDown(id, tiles, 0);
+    count = validateUpperDiags(id, tiles, "left");
+    count = validateUpperDiags(id, tiles, "right");
+    console.log(count)
     if (count >= 3) {
       setIsMatchWon(true);
       setWinner(tiles[id]["value"]);
