@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import TileCol from "./TileCol";
-import { act } from "react-dom/test-utils";
 
 export default function Board() {
   const [tiles, setTiles] = useState(Array(42).fill({ value: "blank" }));
@@ -86,18 +85,54 @@ export default function Board() {
     }
   };
 
+  const validateLowerDiags = (id, tiles, side, counter = 0) => {
+    const color = tiles[id]["value"];
+
+    let actual_id = id;
+
+    for (let i = 1; i <= 4; i++) {
+      actual_id = side === "left" ? actual_id + 6 : actual_id + 8;
+      if (tiles[actual_id] && tiles[actual_id]["value"] === color) {
+        counter++;
+        if (counter === 3) {
+          return counter;
+        }
+      }else{
+        return counter
+      }
+    }
+  };
+
   const checkForWinner = (id, tiles) => {
     let count = 0;
-    // count = validateX(id, tiles, "left", count);
-    // count = validateX(id, tiles, "right", count);
-    // count = validateDown(id, tiles, 0);
+
+    const checkCount = (count) => {
+      if (count >= 3) {
+        setIsMatchWon(true);
+        setWinner(tiles[id]["value"]);
+        return true;
+      }
+      return false;
+    };
+
+    // Valida en el eje X
+    count = validateX(id, tiles, "left", count);
+    count = validateX(id, tiles, "right", count);
+    checkCount(count);
+
+    // Valida en el eje Y
+    count = validateDown(id, tiles, 0);
+    checkCount(count);
+
+    // Valida la diagonal trazada de izquierda a derecha
     count = validateUpperDiags(id, tiles, "left");
+    count = validateLowerDiags(id,tiles,"right", count);
+    checkCount(count);
+
+    // Valida la diagonal trazada de derecha a izquierda
     count = validateUpperDiags(id, tiles, "right");
-    console.log(count)
-    if (count >= 3) {
-      setIsMatchWon(true);
-      setWinner(tiles[id]["value"]);
-    }
+    count = validateLowerDiags(id, tiles, "left", count);
+    checkCount(count);
   };
 
   const childrenProps = {

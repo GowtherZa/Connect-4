@@ -22,7 +22,7 @@ export default function TileCol({ initial_id, props }) {
       return;
     }
 
-    // Draw the tiles on the board
+    // Dibuja las celdas en el tabler0
     const new_tiles = // eslint-disable-next-line react/prop-types
       tiles.map((tile, i) => {
         if (i == last_id && tile["value"] === "blank") {
@@ -37,7 +37,7 @@ export default function TileCol({ initial_id, props }) {
       });
     setTiles(new_tiles);
 
-    // Check for the winner
+    // Verifica si hay un ganador
     checkForWinner(last_id, new_tiles);
 
     last_id - 7 < 0 ? setLast_id(last_id) : setLast_id(last_id - 7);
