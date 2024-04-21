@@ -14,6 +14,8 @@ export default function Tile(id, value) {
       case "yellow":
         setClassName(base_className + " bg-yellow-400");
         break;
+      default:
+        setClassName(base_className);
     }
   }, [value]);
 

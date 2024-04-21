@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 import TileCol from "./TileCol";
+import restartState from "../recoil/Atoms";
 
 export default function Board() {
-  const [tiles, setTiles] = useState(Array(42).fill({ value: "blank" }));
+  const initialTilesStatus = Array(42).fill({ value: "blank" });
+
+  const [tiles, setTiles] = useState(initialTilesStatus);
 
   const [isRedTurn, setIsRedTurn] = useState(true);
 
   const [isMatchWon, setIsMatchWon] = useState(false);
 
-  const [winner, setWinner] = useState("");
+  const [restart, setRestart] = useRecoilState(restartState);
 
   const validateX = (id, tiles, side, counter = 0) => {
     if (
@@ -79,8 +83,8 @@ export default function Board() {
         if (condition(actual_id) || counter === 3) {
           return counter;
         }
-      }else{
-        return counter
+      } else {
+        return counter;
       }
     }
   };
@@ -97,8 +101,8 @@ export default function Board() {
         if (counter === 3) {
           return counter;
         }
-      }else{
-        return counter
+      } else {
+        return counter;
       }
     }
   };
@@ -109,7 +113,7 @@ export default function Board() {
     const checkCount = (count) => {
       if (count >= 3) {
         setIsMatchWon(true);
-        setWinner(tiles[id]["value"]);
+        // setWinner(tiles[id]["value"]);
         return true;
       }
       return false;
@@ -126,7 +130,7 @@ export default function Board() {
 
     // Valida la diagonal trazada de izquierda a derecha
     count = validateUpperDiags(id, tiles, "left");
-    count = validateLowerDiags(id,tiles,"right", count);
+    count = validateLowerDiags(id, tiles, "right", count);
     checkCount(count);
 
     // Valida la diagonal trazada de derecha a izquierda
@@ -145,10 +149,13 @@ export default function Board() {
     checkForWinner,
   };
 
+  useEffect(() => {
+    setTiles(initialTilesStatus);
+  }, [restart]);
+
   return (
-    <div className="w-screen h-screen bg-black bg-opacity-25 flex flex-col justify-center items-center">
-      <div>{winner === "" || `Ganador ${winner}`}</div>
-      <div className="bg-slate-500 w-4/5 h-3/5 xsm:h-2/5 xl:w-2/4 xl:h-3/4 md:w-4/5 md:h-3/5 sm:w-3/4 sm:h-3/4 rounded-lg shadow flex justify-center items-center">
+    <div className="bg-opacity-25 flex flex-col justify-center items-center">
+      <div className="my-16 bg-slate-500 w-4/5 h-3/5 xsm:h-3/5 xl:w-2/4 xl:h-1/4 md:w-4/5 md:h-3/5 sm:w-3/4 sm:h-3/4 rounded-lg shadow flex justify-center items-center">
         <div className="flex flex-wrap align-center items-center">
           <TileCol initial_id={0} props={childrenProps}></TileCol>
           <TileCol initial_id={1} props={childrenProps}></TileCol>
