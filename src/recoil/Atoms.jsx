@@ -5,4 +5,9 @@ const restartState = atom({
   default: false,
 });
 
-export default restartState;
+const scoreState = atom({
+  key:"matchScoreState",
+  default: [0,0]
+})
+
+export {restartState, scoreState};

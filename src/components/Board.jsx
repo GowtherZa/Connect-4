@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import TileCol from "./TileCol";
-import restartState from "../recoil/Atoms";
+import { restartState, scoreState } from "../recoil/Atoms";
 
 export default function Board() {
   const initialTilesStatus = Array(42).fill({ value: "blank" });
@@ -14,6 +14,8 @@ export default function Board() {
   const [isMatchWon, setIsMatchWon] = useState(false);
 
   const [restart, setRestart] = useRecoilState(restartState);
+
+  const [score, setScore] = useRecoilState(scoreState);
 
   const validateX = (id, tiles, side, counter = 0) => {
     if (
@@ -112,8 +114,19 @@ export default function Board() {
 
     const checkCount = (count) => {
       if (count >= 3) {
-        setIsMatchWon(true);
-        // setWinner(tiles[id]["value"]);
+        setScore((prev)=>{
+          let new_score = [0,0]
+          if (tiles[id]["value"] === "red"){
+            new_score[0] += 1;
+          } else if (tiles[id]["value"] === "yellow") {
+            new_score[1] += 1;
+          }
+          new_score[0] += prev[0];
+          new_score[1] += prev[1];
+          return new_score
+        });
+        // Reiniciamos el tablero
+        setRestart(!restart);
         return true;
       }
       return false;
@@ -147,10 +160,12 @@ export default function Board() {
     isMatchWon,
     setIsMatchWon,
     checkForWinner,
+    restart
   };
 
   useEffect(() => {
     setTiles(initialTilesStatus);
+    setIsRedTurn(true);
   }, [restart]);
 
   return (

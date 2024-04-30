@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Tile from "./Tile";
+import { restartState } from "../recoil/Atoms";
 
 // eslint-disable-next-line react/prop-types
 export default function TileCol({ initial_id, props }) {
@@ -15,12 +16,10 @@ export default function TileCol({ initial_id, props }) {
     isMatchWon,
     setIsMatchWon,
     checkForWinner,
+    restart
   } = props;
 
   const handleAddPiece = () => {
-    if (isMatchWon) {
-      return;
-    }
 
     // Dibuja las celdas en el tabler0
     const new_tiles = // eslint-disable-next-line react/prop-types
@@ -50,6 +49,11 @@ export default function TileCol({ initial_id, props }) {
     cols.push(Tile(id, tiles[id]["value"]));
     id += 7;
   }
+
+  useEffect(()=>{
+    setLast_id(initial_id + 7 * 5);
+  }
+  ,[restart])
 
   return (
     <div className="flex flex-wrap flex-col" onClick={handleAddPiece}>
