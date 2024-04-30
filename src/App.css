@@ -610,12 +610,20 @@ video {
   display: flex;
 }
 
+.h-1\/4 {
+  height: 25%;
+}
+
 .h-3\/5 {
   height: 60%;
 }
 
 .h-5 {
   height: 1.25rem;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .h-screen {
@@ -636,6 +644,18 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-11\/12 {
+  width: 91.666667%;
 }
 
 .flex-col {
@@ -662,6 +682,10 @@ video {
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+}
+
+.text-nowrap {
+  text-wrap: nowrap;
 }
 
 .rounded-full {
