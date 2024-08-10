@@ -21,7 +21,7 @@ function App() {
               rel="noopener noreferrer"
               href="https://github.com/GowtherZa"
             >
-              <span className="italic">GowtherZa</span>
+              <span className="italic"> GowtherZa</span>
             </a>
           </p>
         </div>
